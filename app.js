@@ -1,13 +1,15 @@
-const {menu, pause } = require('./models/menu')
+var http = require('http');
 
+var server = http.createServer();
 
-const principal =async() =>{
-    let opt = '0';
+function mensaje(petic, resp){
+    resp.writeHead(200, {'content-type': 'text/plain'});
+    resp.write('Hola Mundo');
+    resp.end();
+} 
 
-    do{
-        opt = await menu()
-        await pause() 
-    } while( opt !== '5')
-}
+server.on('request', comandos);
 
-principal()
+server.listen(3000, function() {
+    console.log('La aplicación está funcionando en el puerto 3000');
+})

@@ -1,5 +1,8 @@
+// TRABAJO EN CLASE
+
 var colors = require('colors');
 var inquirer = require('inquirer');
+const tareas = [];
 
 const questions = {
     type: 'list',
@@ -39,6 +42,36 @@ const menu = async () => {
     return options;
 };
 
+
+const crearTarea = async () => {
+    const { tarea } = await inquirer.default.prompt([
+        {
+            type: 'input',
+            name: 'tarea',
+            message: 'Ingresa la descripción de la tarea:'
+        }
+        
+    ]);
+    const { responsable } = await inquirer.default.prompt([
+        {
+            type: 'input',
+            name: 'responsable',
+            message: 'Ingresa el nombre del responsable de la tarea:'
+        }
+        
+    ]);
+    tareas.push({ id: tareas.length + 1, responsable: responsable, description: tarea });
+    console.log('Tarea creada exitosamente!'.green);
+};
+
+
+const listarTareas = () => {
+    console.log('\nTareas:');
+    tareas.forEach((tarea, index) => {
+        console.log(`${(index + 1).toString().green}. ${tarea.description}. responsable:${tarea.responsable}`);
+    });
+};
+
 const pause = async () => {
     const question = [
         {
@@ -47,10 +80,12 @@ const pause = async () => {
             message: `Presione la tecla ${'enter'.green} para continuar`
         }
     ];
-    await inquirer.prompt(question);
+    await inquirer.default.prompt(question);
 };
 
 module.exports = {
     menu,
+    crearTarea,
+    listarTareas,
     pause
 };
