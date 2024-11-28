@@ -1,6 +1,7 @@
 var colors = require('colors');
 var inquirer = require('inquirer');
 const tareas = [];
+const Table = require('cli-table3');
 
 const questions = {
     type: 'list',
@@ -126,7 +127,36 @@ const leerEstado = async ()=> {
 //     });
 // };
 
+const seleccionarTareasPendientes = async (tareasPendientes) => {
+    const choices = tareasPendientes.map((tarea, i) => ({
+        value: tarea.id,
+        name: `${(i + 1).toString().green}. ${tarea.desc} (${tarea.responsable})`,
+    }));
 
+    const preguntas = [
+        {
+            type: 'checkbox',
+            name: 'ids',
+            message: 'Seleccione las tareas a completar:',
+            choices,
+        },
+    ];
+
+    const { ids } = await inquirer.default.prompt(preguntas);
+    return ids;
+};
+const mostrarTabla = (tareas) => {
+    const table = new Table({
+        head: ['#', 'Descripción', 'Responsable', 'Estado'],
+        colWidths: [5, 30, 20, 15]
+    });
+
+    tareas.forEach((tarea, i) => {
+        table.push([i + 1, tarea.desc, tarea.responsable, tarea.estado]);
+    });
+
+    console.log(table.toString());
+};
 const pause = async () => {
     const question = [
         {
@@ -142,6 +172,8 @@ module.exports = {
     menu,
     leerInput,
     leerEstado,
+    seleccionarTareasPendientes,
+    mostrarTabla,
     // crearTarea,
     // listarTareas,
     pause

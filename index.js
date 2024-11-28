@@ -3,11 +3,12 @@ const {
         menu, 
         // crearTarea, 
         // listarTareas, 
+        mostrarTabla,
         leerInput,
         leerEstado,
+        seleccionarTareasPendientes,
         pause 
     } = require('./helpers/menu')
-const Table = require('cli-table3');
 
 
 
@@ -29,25 +30,32 @@ const principal = async () => {
                 console.log('Tarea creada exitosamente!'.green);
                 break;
                 
-            case '2': // Listar todas las tareas
+            case '2': 
                 console.log('\nTodas las tareas:\n'.blue);
 
                 mostrarTabla(tareas.listadoArr);
                 break;
 
-            case '3': // Listar tareas completadas
+            case '3': 
                 console.log('\nTareas completadas:\n'.green);
                 mostrarTabla(tareas.listarCompletadas());
                 break;
 
-            case '4': // Listar tareas pendientes
+            case '4': 
                 console.log('\nTareas pendientes:\n'.yellow);
                 mostrarTabla(tareas.listarPendientes());
                 break;
-
-            case'5':
-                console.log('Opción no implementada'.red);
+            case '5': // Completar tareas pendientes
+                const tareasPendientes = tareas.listadoArr.filter((t) => t.estado === 'Pendiente');
+                if (tareasPendientes.length === 0) {
+                    console.log('\nNo hay tareas pendientes para completar.\n'.yellow);
+                } else {
+                    const id = await seleccionarTareasPendientes(tareasPendientes); // Asegúrate de que id es un array
+                    tareas.completarTareas([id]); // Pasa un array con el ID de la tarea seleccionada
+                    console.log('\nTareas completadas exitosamente!\n'.green);
+                }
                 break;
+            
             case'6':
                 console.log('Opción no implementada'.red);
                 break;
@@ -62,18 +70,6 @@ const principal = async () => {
 
         await pause();
     } while (opt !== '7');
-};
-const mostrarTabla = (tareas) => {
-    const table = new Table({
-        head: ['#', 'Descripción', 'Responsable', 'Estado'], // Encabezados
-        colWidths: [5, 30, 20, 15], // Ajusta el ancho de las columnas
-    });
-
-    tareas.forEach((tarea, i) => {
-        table.push([i + 1, tarea.desc, tarea.responsable, tarea.estado]);
-    });
-
-    console.log(table.toString());
 };
 
 principal()

@@ -3,7 +3,7 @@
     "id": "6bc0364b-8bf9-4dec-b14e-010000aabef6",
     "desc": "hacer arroz",
     "responsable": "santi",
-    "estado": "Pendiente"
+    "estado": "Completada"
   },
   {
     "id": "9b4555cc-bbf3-473d-8c01-4d7911591bb5",
