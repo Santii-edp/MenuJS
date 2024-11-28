@@ -67,6 +67,35 @@ const leerInput = async (message)=> {
     const {desc} = await inquirer.default.prompt(question);
     return desc;
 };
+const leerEstado = async ()=> {
+
+    const seleccionarEstado =[
+        {
+            type:'list',
+            name: 'estado',
+            message:'seleccione el estado de la tarea',
+            choices:[
+                {
+                    value: 'Completada',
+                    name: `${'1.'.green}${'Completada'.green}`,
+                },
+                {
+                    value: 'Pendiente',
+                    name: `${'2.'.red}${'Pendiente'.yellow}`,
+                },
+            ],
+            validate(value){
+                if(value.length === 0){
+                    return 'porfavor ingresar un valor'
+                }
+                return true;
+            }
+        }
+    ]
+
+    const { estado } = await inquirer.default.prompt(seleccionarEstado);
+    return estado;
+};
 
 // const crearTarea = async () => {
 //     const { tarea } = await inquirer.default.prompt([
@@ -112,6 +141,7 @@ const pause = async () => {
 module.exports = {
     menu,
     leerInput,
+    leerEstado,
     // crearTarea,
     // listarTareas,
     pause

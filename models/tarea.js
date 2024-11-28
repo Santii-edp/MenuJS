@@ -5,13 +5,13 @@ class Tarea {
     id='';
     desc='';
     responsable='';
-    completadoEn= null;
+    estado= '';
 
-    constructor(desc, responsable){
+    constructor(desc, responsable, estado){
         this.id = uuidv4();
         this.desc = desc;
         this.responsable = responsable;
-        this.completadoEn = null;
+        this.estado = estado;
     }
 }
 
